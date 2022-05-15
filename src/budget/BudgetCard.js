@@ -30,7 +30,7 @@ function BudgetCard(props) {
 
   //   console.log("belanja", belanja);
   //   console.log("cur amount", curAmount);
-  //   console.log("expense", expense);
+  // console.log("id", id);
 
   function handleShow() {
     setShow(true);
@@ -45,7 +45,7 @@ function BudgetCard(props) {
     let colorr;
 
     if (percent < 40) {
-      colorr = "primary";
+      colorr = "success";
     } else if (percent < 80) {
       colorr = "warning";
     } else if (percent >= 80) {
@@ -67,6 +67,7 @@ function BudgetCard(props) {
         setBelanja({
           name: "",
           amount: "",
+          budget_id: id,
         });
 
         setShow(false);
@@ -94,6 +95,10 @@ function BudgetCard(props) {
   useEffect(() => {
     getbyId();
   }, [id]);
+
+  useEffect(() => {
+    getbyId();
+  }, [curAmount]);
 
   return (
     <Card className="p-3 m-3 bajetcard">
@@ -140,7 +145,7 @@ function BudgetCard(props) {
         </div>
       </div>
       <ProgressBar
-        variant={progressColor(cur_amount, max_amount)}
+        variant={progressColor(curAmount, max_amount)}
         now={curAmount}
         max={max_amount}
       />

@@ -8,6 +8,7 @@ function ModalBudget() {
     name: "",
     amount: 0,
   });
+  const [create, setCreate] = useState(false);
 
   console.log(bajet);
 
@@ -34,6 +35,7 @@ function ModalBudget() {
           amount: 0,
         });
         setShow(false);
+        setCreate(!create);
         console.log("cipta bajet", response);
       })
       .catch(function (error) {
@@ -41,41 +43,44 @@ function ModalBudget() {
       });
   }
 
-  return (
-    <>
-      <Button className="bg-primary border-0 mx-1" onClick={handleShow}>
-        + Bajet
-      </Button>
+  return {
+    create,
+    render: (
+      <>
+        <Button className="bg-primary border-0 mx-1" onClick={handleShow}>
+          + Bajet
+        </Button>
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Bajet Baru</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <FormGroup>
-            <Form.Label>Nama</Form.Label>
-            <Form.Control
-              type="text"
-              value={bajet.name}
-              onChange={(e) => setBajet({ ...bajet, name: e.target.value })}
-            ></Form.Control>
-            <br />
-            <Form.Label>Had Bajet</Form.Label>
-            <Form.Control
-              type="text"
-              value={bajet.amount}
-              onChange={(e) => setBajet({ ...bajet, amount: e.target.value })}
-            ></Form.Control>
-            <br />
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Bajet Baru</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <FormGroup>
+              <Form.Label>Nama</Form.Label>
+              <Form.Control
+                type="text"
+                value={bajet.name}
+                onChange={(e) => setBajet({ ...bajet, name: e.target.value })}
+              ></Form.Control>
+              <br />
+              <Form.Label>Had Bajet</Form.Label>
+              <Form.Control
+                type="text"
+                value={bajet.amount}
+                onChange={(e) => setBajet({ ...bajet, amount: e.target.value })}
+              ></Form.Control>
+              <br />
 
-            <Button type="submit" onClick={handleSubmit}>
-              Simpan
-            </Button>
-          </FormGroup>
-        </Modal.Body>
-      </Modal>
-    </>
-  );
+              <Button type="submit" onClick={handleSubmit}>
+                Simpan
+              </Button>
+            </FormGroup>
+          </Modal.Body>
+        </Modal>
+      </>
+    ),
+  };
 }
 
 export default ModalBudget;
