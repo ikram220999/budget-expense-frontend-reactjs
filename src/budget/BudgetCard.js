@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
@@ -12,6 +13,7 @@ import {
   ProgressBar,
 } from "react-bootstrap";
 import "../budget/component/budjetcard.css";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function BudgetCard(props) {
   let name = props.name;
@@ -21,6 +23,7 @@ function BudgetCard(props) {
   let cur_amount = props.cur_amount;
 
   const [show, setShow] = useState(false);
+  const [showPadam, setShowPadam] = useState(false);
   const [belanja, setBelanja] = useState({
     name: "",
     amount: "",
@@ -38,6 +41,14 @@ function BudgetCard(props) {
 
   function handleClose() {
     setShow(false);
+  }
+
+  function handleShowBajet() {
+    setShowPadam(true);
+  }
+
+  function handleCloseBajet() {
+    setShowPadam(false);
   }
 
   function progressColor(cur_amount, max_amount) {
@@ -92,6 +103,14 @@ function BudgetCard(props) {
       });
   }
 
+  function cardBackground(cur_amount, max_amount) {
+    if (cur_amount < max_amount) {
+      return "bg-white";
+    } else {
+      return "bg-danger bg-opacity-25";
+    }
+  }
+
   useEffect(() => {
     getbyId();
   }, [id]);
@@ -101,7 +120,9 @@ function BudgetCard(props) {
   }, [curAmount]);
 
   return (
-    <Card className="p-3 m-3 bajetcard">
+    <Card
+      className={`p-3 m-3 bajetcard ${cardBackground(curAmount, max_amount)}`}
+    >
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Tambah belanja</Modal.Title>
@@ -132,9 +153,36 @@ function BudgetCard(props) {
         </Modal.Body>
       </Modal>
 
-      <Button className="" onClick={handleShow}>
-        <small>+ Belanja</small>
-      </Button>
+      <Modal show={showPadam} onHide={handleCloseBajet}>
+        <Modal.Header closeButton>
+          <Modal.Title>Padam Bajet</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Yakin untuk padam bajet ini ?</Modal.Body>
+        <Modal.Footer>
+          <Button
+            onClick={handleCloseBajet}
+            className="bg-white border-secondary text-secondary"
+          >
+            Kembali
+          </Button>
+          <Button type="submit" className="bg-danger border-0">
+            Padam
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <div className="d-flex flex-row justify-content-between">
+        <Button className="w-75" onClick={handleShow}>
+          <small>+ Belanja</small>
+        </Button>
+        <Button
+          className="bg-danger border-0 del_but"
+          onClick={handleShowBajet}
+          size="sm"
+        >
+          <FontAwesomeIcon icon={faTrash} />
+        </Button>
+      </div>
       <div className="p-2 d-flex flex-row align-items-baseline justify-content-between">
         <h6>{name[0].toUpperCase() + name.substring(1)}</h6>
         <div>

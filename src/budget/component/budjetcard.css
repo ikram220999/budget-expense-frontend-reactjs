@@ -1,3 +1,8 @@
 .bajetcard {
   width: 300px;
 }
+
+.del_but {
+  width: 40px;
+  padding: 2rem;
+}
